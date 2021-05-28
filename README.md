@@ -37,5 +37,7 @@ We have released the training codes for ShanghaiTech on both stage 1 and stage 2
 The details of training are listed in [Training_Guidelines.md](https://github.com/fjchange/MIST_VAD/blob/master/Training_Guidelines.md).
 
 ## Reference
+If you find the codes help, please cite our paper.
+
 Recommended Citation Form:
 > Jia-Chang Feng, Fa-Ting Hong and Wei-Shi Zheng. “MIST: Multiple Instance Self-Training Framework for Video Anomaly Detection, Proceedings of the IEEE International Conference on Computer Vision and Pattern Recognition. 2021.
