@@ -11,7 +11,10 @@ Official codes for CVPR2021 paper "MIST: Multiple Instance Self-Training Framewo
 
 ![Structure of MIST](Structure_New-1.png)
 
-Testing codes have been released. The codes are cleaned out from the original ones without full verification. I will improve it later.
+
+## Updates
+**`[May 28th]`** Testing / Training codes have been released. The codes are cleaned out from the original ones without full verification. 
+There maybe any unexpected bugs. I will improve it later if I have time.
 ## Requirements
 - python>=3.6
 - apex
