@@ -153,3 +153,16 @@ def eval_classification_binary(logits,labels):
     negative_true=torch.nonzero(((1-labels)*F.relu(0.5-logits))).shape[0]
     return (positive_true+negative_true)/N
 
+def eval(total_scores,total_labels,logger):
+    total_scores = np.array(total_scores)
+    total_labels = np.array(total_labels)
+
+    logger.info('===================')
+    auc = cal_auc(total_scores, total_labels)
+    far = cal_false_alarm(total_scores, total_labels)
+    rmse = cal_rmse(total_scores, total_labels)
+    gap = cal_score_gap(total_scores, total_labels)
+    logger.info('AUC\t {}'.format(auc))
+    logger.info('FAR\t{}'.format(far))
+    logger.info('Gap\t{}\tRMSE\t{}'.format(gap, rmse))
+    return auc

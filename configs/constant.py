@@ -35,6 +35,9 @@ _C.SHT_TEST_MASK_DIR='data/test_frame_mask/'
 _C.SHT_TRAIN_TXT_PATH='data/SH_Train_new.txt'
 _C.SHT_TEST_TXT_PATH='data/SH_Test_NEW.txt'
 
+_C.PSEUDO_LABEL_PATH_SHT_I3D='data/SHT_I3D_PLs.npy'
+_C.PSEUDO_LABEL_PATH_SHT_C3D='data/SHT_C3D_PLs.npy'
+
 ############# 4. Dataset Related ###################
 _C.DATASET=CfgNode()
 _C.DATASET.MEAN=[0.45,0.45,0.45]
@@ -45,3 +48,11 @@ _C.DATASET.RESIZE=256
 
 _C.DATASET.C3D_MEAN=[90.25,97.66,101.41]
 _C.DATASET.C3D_STD=[1,1,1]
+
+
+############# 5.training setting ##################
+_C.SEED=0
+_C.LOG_DIR='logs/'
+_C.SUMMARY_DIR='summarys/'
+_C.MODEL_DIR='train_ckpts/'
+
