@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from model.Attention import *
+from models.Attention import *
 
 def load_c3d_pretrained_model(net,checkpoint_path,name=None):
     checkpoint = torch.load(checkpoint_path)

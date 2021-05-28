@@ -2,6 +2,7 @@ import cv2
 import h5py
 import os
 from tqdm import tqdm
+import numpy as np
 
 """
 For training speed, we translate the video datasets into a single h5py file for reducing the indexing time in Disk
