@@ -21,7 +21,7 @@ _C.STH_I3D_MODEL_PATH='ckpts/SHT_I3D_AUC_0.9483.pth'
 
 ## Vis Paths
 _C.VIS_DIR='outputs/'
-
+_C.TEST_SPATIAL_ANNOTATION_PATH='data/Test_Spatial_Annotation.npy'
 ############ 2. UCF Data ###########################
 _C.TRAIN_H5_PATH='data/UCFCrime-Frames.h5'
 _C.TEST_H5_PATH='data/UCFCrime-Frames-test.h5'

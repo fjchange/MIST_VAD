@@ -48,6 +48,7 @@ def eval_UCF(args,model,test_dataloader):
     next_batch[0]=next_batch[0].cuda(non_blocking=True)
     if args.vis:
         gradcam=Grad_CAM(model.Regressor,grad_pp=False)
+        test_spatial_annotation = np.load(_C.TEST_SPATIAL_ANNOTATION_PATH, allow_pickle=True).tolist()
 
     for frames,_,_,_,annos in tqdm(test_dataloader):
         frames=frames.float().contiguous().view([-1, 3, frames.shape[-3], frames.shape[-2], frames.shape[-1]]).cuda()
@@ -80,9 +81,8 @@ def eval_UCF(args,model,test_dataloader):
                 for f_idx in range(idx * args.segment_len, args.segment_len * (idx + 1)):
                     if f_idx in spa_annos.keys():
                         cam_map = gradcam(feat_map)
-                        cam_path = CAM_path_pre + '/{}-{}.jpg'.format(key, f_idx)
+                        cam_path = _C.VIS_DIR+ '/{}-{}.jpg'.format(key, f_idx)
                         cam_clip = visualize_CAM_with_clip(cam_map, clip, (320, 240))
-                        cam_clip = visual_img_with_bbox(cam_clip, spa_annos[f_idx])
                         cv2.imwrite(cam_path, cam_clip)
 
         return eval(total_scores, total_labels )
