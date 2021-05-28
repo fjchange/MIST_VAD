@@ -17,7 +17,7 @@ As for the other stage, we train the self-guided attention enhanced feature enco
 - yacs
 
 
-**[ Attention!! ] Before doning further works, remember that the paths in the codes may need to be modified to adapt to your environment.**
+**[ Attention!! ] Before doing any further, remember that the paths in the codes may need to be modified to adapt to your environment.**
 
 ## 3. Data Preparation
 Pre-extracted features for ShanghaiTech are uploaded on [SHT_Feats_for_MIL](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=lhkr0i).
