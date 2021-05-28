@@ -21,7 +21,7 @@ Testing codes have been released. The codes are cleaned out from the original on
 - h5py
 - opencv
 - scikit-learn
-
+- yacs
 
 ## Testing
 
