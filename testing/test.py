@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.extend(['..','../..','../../..'])
-
+import torch
 from configs import constant,options
 import models
 from datasets.dataset import Test_Dataset_C3D,Test_Dataset_I3D,Test_Dataset_SHT_C3D,Test_Dataset_SHT_I3D
@@ -9,13 +9,18 @@ from datasets.dataset import Test_Dataset_C3D,Test_Dataset_I3D,Test_Dataset_SHT_
 from torch.utils.data import DataLoader
 from utils.eval_utils import cal_auc,cal_score_gap,cal_false_alarm
 from visualization.Grad_CAM import GradCAM
+from visualization.CAM import visualize_CAM_with_clip
+import random
+import numpy as np
+from tqdm import tqdm
+import cv2
 
 _C=constant._C
 
 def load_model_dataset(args):
     def worker_init(worked_id):
-        np.random.seed(CFG.SEED+worked_id)
-        random.seed(CFG.SEED+worked_id)
+        np.random.seed(_C.SEED+worked_id)
+        random.seed(_C.SEED+worked_id)
     model=getattr(models,args.MODEL.split('_')[0]+'_SGA_STD')(dropout_rate=args.dropout_rate,expand_k=args.expand_k,
                                   freeze_backbone=False,freeze_blocks=None).cuda().eval()
     if args.MODEL.split('_')[-1]=='C3D':
@@ -47,10 +52,10 @@ def eval_UCF(args,model,test_dataloader):
     next_batch=data_iter.__next__()
     next_batch[0]=next_batch[0].cuda(non_blocking=True)
     if args.vis:
-        gradcam=Grad_CAM(model.Regressor,grad_pp=False)
+        gradcam=GradCAM(model.Regressor,grad_pp=False)
         test_spatial_annotation = np.load(_C.TEST_SPATIAL_ANNOTATION_PATH, allow_pickle=True).tolist()
 
-    for frames,_,_,_,annos in tqdm(test_dataloader):
+    for frames,ano_types, keys, idxs,annos in tqdm(test_dataloader):
         frames=frames.float().contiguous().view([-1, 3, frames.shape[-3], frames.shape[-2], frames.shape[-1]]).cuda()
 
         with torch.no_grad():
@@ -73,9 +78,6 @@ def eval_UCF(args,model,test_dataloader):
             total_labels.extend(anno.tolist())
 
             if args.vis and ano_type != 'Normal':
-                anomaly_scores.extend(score)
-                anomaly_labels.extend(anno.tolist())
-
                 spa_annos = test_spatial_annotation[key]
 
                 for f_idx in range(idx * args.segment_len, args.segment_len * (idx + 1)):
@@ -100,9 +102,7 @@ def eval_SHT(model,test_dataloader):
         for clip, score, anno in zip(frames, scores, annos):
             score = [score.squeeze()[1].detach().cpu().item()] * args.segment_len
             total_scores.extend(score)
-            score_dict[ano_type].extend(score)
             total_labels.extend(anno.tolist())
-            label_dict[ano_type].extend(anno.tolist())
 
     return eval(total_scores,total_labels)
 
@@ -110,7 +110,7 @@ def eval(total_scores,total_labels):
     total_scores,total_labels=np.array(total_scores),np.array(total_labels)
     auc = cal_auc(total_scores, total_labels)
     far=cal_false_alarm(total_scores,total_labels)
-    gap=cal_false_alarm(total_scores,total_labels)
+    gap=cal_score_gap(total_scores,total_labels)
     print('{}: AUC {:.2f}%, FAR {:.2f}%, GAP {:.2f}%'.format(args.MODEL,auc*100,far*100,gap*100))
 
 def test(args):
