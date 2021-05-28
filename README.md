@@ -11,8 +11,7 @@ Official codes for CVPR2021 paper "MIST: Multiple Instance Self-Training Framewo
 
 ![Structure of MIST](Structure_New-1.png)
 
-The codes will make release soon.
-
+Testing codes have been released. The codes are cleaned out from the original ones without full verification. I will improve it later.
 ## Requirements
 - python>=3.6
 - apex
@@ -28,7 +27,7 @@ The codes will make release soon.
 
 Pretrained models have been uploaded on [OneDrive](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=lhkr0i).
 
-
+To test the pretrained checkpoints, you are recommended to read [GettingStart.md](https://github.com/fjchange/MIST_VAD/blob/master/GettingStart.md) for more details.
 ## Reference
 Recommended Citation Form:
 > Jia-Chang Feng, Fa-Ting Hong and Wei-Shi Zheng. “MIST: Multiple Instance Self-Training Framework for Video Anomaly Detection, Proceedings of the IEEE International Conference on Computer Vision and Pattern Recognition. 2021.
