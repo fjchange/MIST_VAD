@@ -3,7 +3,7 @@ import os
 
 def parse_args():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--Model',type=str,default='SHT_I3D',
+    parser.add_argument('--MODEL',type=str,default='SHT_I3D',
                         help='the input should be in [UCF_C3D,UCF_I3D,SHT_C3D,SHT_I3D]')
     parser.add_argument('--expand_k',type=int,default=8)
 
