@@ -139,6 +139,9 @@ def parser_arg():
     parser.add_argument('--model_path',type=str,default='/jiachang/Weakly_Supervised_VAD/Datasets/MIL.pth')
     parser.add_argument('--Pseudo_Labels_dir',type=str,default='/jiachang/Pseudo_Labels_MultiViews/SHT_PLs_I3D_iter_1')
 
+    parser.add_argument('--generate_PL',action='store_true',dest='PL')
+    parser.set_defaults(PL=False)
+
     parser.add_argument('--smooth_len',type=int,default=5)
 
     args = parser.parse_args()
@@ -195,7 +198,7 @@ def Augment_Pseudo_Label_Generate(args):
     np.save(args.Pseudo_Labels_dir+'/test_results.npy', test_scores_dict)
 
     Augment_Pseudo_Label_Refilement(args)
-    
+
 def smooth(y,box_size):
     assert box_size%2==1, 'The bosx size should be ood'
     box=np.ones(box_size)/box_size
@@ -232,6 +235,8 @@ if __name__=='__main__':
 
     set_seeds(args.seed)
     # first step to train the MIL generator
-    train(args)
+    if not args.PL:
+        train(args)
     # then generate pseudo labels after the MIL generator trained, use the command below
-    #Augment_Pseudo_Label_Generate(args)
+    else:
+        Augment_Pseudo_Label_Generate(args)

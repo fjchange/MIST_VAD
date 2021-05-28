@@ -28,6 +28,11 @@ Testing codes have been released. The codes are cleaned out from the original on
 Pretrained models have been uploaded on [OneDrive](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=lhkr0i).
 
 To test the pretrained checkpoints, you are recommended to read [GettingStart.md](https://github.com/fjchange/MIST_VAD/blob/master/GettingStart.md) for more details.
+
+## Training
+We have released the training codes for ShanghaiTech on both stage 1 and stage 2. For convenience to repeat our experiments, we presents the pseudo labels files in `data/` dir. 
+The details of training are listed in [Training_Guideline.md]().
+
 ## Reference
 Recommended Citation Form:
 > Jia-Chang Feng, Fa-Ting Hong and Wei-Shi Zheng. “MIST: Multiple Instance Self-Training Framework for Video Anomaly Detection, Proceedings of the IEEE International Conference on Computer Vision and Pattern Recognition. 2021.
