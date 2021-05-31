@@ -21,7 +21,7 @@ def load_model_dataset(args):
     def worker_init(worked_id):
         np.random.seed(_C.SEED+worked_id)
         random.seed(_C.SEED+worked_id)
-    model=getattr(models,args.MODEL.split('_')[0]+'_SGA_STD')(dropout_rate=args.dropout_rate,expand_k=args.expand_k,
+    model=getattr(models,args.MODEL.split('_')[1]+'_SGA_STD')(dropout_rate=args.dropout_rate,expand_k=args.expand_k,
                                   freeze_backbone=False,freeze_blocks=None).cuda().eval()
     if args.MODEL.split('_')[-1]=='C3D':
         if args.MODEL=='UCF_C3D':
