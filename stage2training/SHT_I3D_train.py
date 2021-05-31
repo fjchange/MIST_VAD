@@ -139,8 +139,8 @@ def dir_prepare(args):
     get_timestamp()
     logger_dir=args.machine+CFG.LOG_DIR+'{}_{}/'.format(args.MODEL,args.train)
     mkdir(logger_dir)
-    param_str='SHT_{}_iter_{}_seed_{}_lr_{}_wd_{}_ts_{}_ss_{}_tmse_{}_ent_{}_{}'.format(args.train,args.iter,CFG.SEED,args.lr,args.weight_decay,
-                                                                          args.lambda_ts,args.lambda_ss,args.lambda_tmse,args.lambda_ent,get_timestamp())
+    param_str='SHT_{}_iter_{}_seed_{}_lr_{}_wd_{}_{}'.format(args.train,args.iter,CFG.SEED,args.lr,args.weight_decay,
+                                                                          get_timestamp())
     logger_path=logger_dir+'{}.log'.format(param_str)
     logger=get_logger(logger_path)
     logger.info('Train this model at time {}'.format(get_timestamp()))
