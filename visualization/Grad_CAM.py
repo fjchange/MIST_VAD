@@ -164,7 +164,7 @@ class GradCAM:
 import sys
 sys.path.append("..")
 sys.path.append("../..")
-from UCFCrime.SpatioTemporal_Detection.CAM import visualize_CAM
+from visualization.CAM import visualize_CAM
 def test_gradcam():
     model=Simple_Regressor(1024).cuda().eval()
     old_state_dict=torch.load('/data2/jiachang/Weakly_Supervised_VAD/models/single_I3D_RGB_550')
@@ -174,97 +174,6 @@ def test_gradcam():
     cam=gradcam(feature_maps)
     print(cam.shape)
     visualize_CAM(cam,(320,240))
-
-import sys
-sys.path.append('..')
-sys.path.append('../..')
-from UCFCrime.SpatioTemporal_Detection.NLN_STD import simple_I3D_TD_Module,load_pretrained_model,Small_I3D_TD_Module,SlowFast_STD_Module
-from models.i3d import I3D
-from models.resnet import generate_model
-from UCFCrime.SpatioTemporal_Detection.CAM import visualize_CAM_with_clip
-import os
-# from models.resnet_model import generate_model
-from UCFCrime.Models.build import build_model
-from UCFCrime.Models_cfgs import parser
-from UCFCrime.utils.checkpoint import load_checkpoint
-def test_pretrained_model():
-    os.environ['CUDA_VISIBLE_DEVICES']='0'
-    # pretrained_path='/data2/jiachang/Weakly_Supervised_VAD/models/I3D_TD/UCF_seed_0_k_10_lr_1e-05_wd_0_det_0.5_cls_0.5_l1_0.0epoch_60.pth'#,pretrained_regressor_path='/data2/jiachang/Weakly_Supervised_VAD/models/single_I3D_RGB_550'
-    # model=Small_I3D_TD_Module(0.6,'/data2/jiachang/Weakly_Supervised_VAD/stored_models/model_rgb.pth').cuda().eval()
-    # model_dict = model.state_dict()
-    # pretrained_state_dict = torch.load(pretrained_path)['model']
-    # new_dict = {k[7:]: v for k, v in pretrained_state_dict.items()}
-    # model_dict.update(new_dict)
-    # model.load_state_dict(model_dict)
-    # model=I3D(400).cuda().eval()
-    # pretrained_state_dict=torch.load('/data0/jiachang/Weakly_Supervised_VAD/stored_models/model_rgb.pth')
-    # model_dict=model.state_dict()
-    # new_dict={k:v for k,v in pretrained_state_dict.items() if k in model_dict.keys()}
-    # model_dict.update(new_dict)
-    # model.load_state_dict(model_dict)
-    # load_pretrained_model(model,'/data0/jiachang/Weakly_Supervised_VAD/stored_models/model_rgb.pth')
-    img_path='./imgs/cat1.jpeg'
-
-    # model=generate_model(34)
-    # pretrained_path='/data0/jiachang/Weakly_Supervised_VAD/stored_models/r3d18_K_200ep.pth'
-    # model=generate_model(18,n_classes=700).cuda().eval()
-    # model.load_state_dict(torch.load(pretrained_path)['state_dict'])
-
-    # SlowFast Models
-    cfg_path='../Models_cfgs/I3D_NLN_8x8_R50.yaml'
-    pretrained_path='/data0/jiachang/Weakly_Supervised_VAD/stored_models/I3D_NLN_8x8_R50.pkl'
-    # args=parser.parse_args()
-    # args.cfg_file=cfg_path
-    cfg=parser.load_config(cfg_path)
-    # import pdb
-    # pdb.set_trace()
-    model=build_model(cfg)#.cuda().eval()
-    load_checkpoint(pretrained_path,model,data_parallel=False,convert_from_caffe2=True)
-
-    # output_model_path='/data0/jiachang/Weakly_Supervised_VAD/stored_models/{}.pth'.format(pretrained_path.split('/')[-1].split('.')[0])
-    # model_state_dict=model.state_dict()
-    # new_dict={k:v for k,v in model_state_dict.items() if 'head' not in k}
-    # torch.save(new_dict,output_model_path)
-    # frame = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB).astype(np.float32) / 128.0 - 1.0
-    # frames = torch.from_numpy(frame).permute(2, 0, 1).unsqueeze(1).unsqueeze(0).cuda().float()
-    # frames = frames.repeat([1, 1, 12, 1, 1])
-    # frames=torch.from_numpy(np.random.random([1,3,12,224,224])*2.0-1.0).cuda().float()
-    frames=torch.zeros([1,3,8,224,224]).float()#.cuda()
-
-    # frame = (cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB).astype(np.float32)/255.-0.45)/0.225
-    # frames = torch.from_numpy(frame).permute(2, 0, 1).unsqueeze(1).unsqueeze(0).float()#.cuda()
-    # frames = frames.repeat([1, 1, 8, 1, 1])
-
-    # # frames[:,:,:,0,0]=1
-    # # print(frames.shape)
-    # gradcam = GradCAM(model.Regressor, grad_pp=True,index=1)
-    # with torch.no_grad():
-    #     scores, feat_maps = model(frames)
-    # print(torch.relu(feat_maps).cpu().numpy().squeeze(0).mean(axis=(1,)).max(axis=0))
-    # print(torch.relu(feat_maps).cpu().numpy().squeeze(0).mean(axis=(0,1)))
-    #
-    # # print(feat_maps)
-    # cam_map = gradcam(feat_maps[0])
-    # cam_path = './grad_cam_{}.jpg'.format(img_path.split('.')[0])
-    # cam_clip = visualize_CAM_with_clip(cam_map, frames[0], (224, 224))
-    # cv2.imwrite(cam_path, cam_clip)
-
-    frames=[frames]
-    with torch.no_grad():
-        feat_maps,s4_maps=model(frames)
-    print(s4_maps[0].shape)
-    print(feat_maps[0].shape)
-    # feat_map=feat_maps.mean(dim=1).mean(dim=1)[0].unsqueeze(-1)
-
-    # feat_map=torch.var(feat_maps[0],dim=(-2,-1))
-    # print(feat_map)
-    # print(feat_map.max(),feat_map.min())
-    # print(feat_map)
-    # feat_map=feat_map-torch.min(feat_map)
-    # feat_map/=feat_map.max()
-    # feat_map=feat_map.cpu().numpy()
-    # map=visualize_CAM(feat_map,(224,224))
-    # cv2.imwrite('./grad_cam.jpg', map)
 
 
 if __name__=='__main__':
