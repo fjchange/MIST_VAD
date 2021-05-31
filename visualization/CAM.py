@@ -62,18 +62,6 @@ def test_CAM():
     CAM_map=visualize_CAM(norm_CAM_maps[0],(320,240))
     cv2.imwrite('./cam.jpg',CAM_map)
 
-# def pseudo_CAM():
-#     pseudo_CAM=torch.tensor([[0.45,0.75,0.1,0.04,0.03,0.15,0.17,0.25,0.37,0.12],
-#                              [0.57,0.65,0.35,0.0,0.02,0.3,0.2,0.3,0.4,0.1],
-#                              [0.35,0.42,0.32,0.4,0.17,0.03,0.08,0.25,0.36,0.2],
-#                              [0.26,0.24,0.16,0.25,0.11,0.03,0.02,0.35,0.48,0.45],
-#                              [0.10,0.13,0.16,0.35,0.13,0.45,0.68,0.45,1.0,0.67],
-#                              [0.13,0.25,0.12,0.36,0.16,0.85,0.86,0.89,0.92,0.75],
-#                              [0.03,0.04,0.16,0.26,0.23,0.75,0.82,0.95,0.53,0.59],
-#                              [0.1,0.0,0.13,0.16,0.3,0.22,0.32,0.2,0.16,0.23]]).unsqueeze(0)
-#     CAM_map=visualize_CAM(pseudo_CAM,(320,240))
-#     CAM_map = cv2.applyColorMap(CAM_map, cv2.COLORMAP_JET)
-#     cv2.imwrite('cam.jpg',CAM_map)
 
 def visualize_CAM_with_clip(CAM_map,clip,origin_size):
     CAM=visualize_CAM(CAM_map,origin_size)
@@ -267,5 +255,4 @@ class BoxEvaluator(LocalizationEvaluator):
         return max_box_acc
 
 if __name__ == "__main__":
-    # test_CAM()
-    pseudo_CAM()
+    test_CAM()
