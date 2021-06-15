@@ -28,7 +28,7 @@ There maybe any unexpected bugs. I will improve it later if I have time.
 
 ## Testing
 
-Pretrained models have been uploaded on [OneDrive](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=nL4mDJ).
+Pretrained models have been uploaded on [OneDrive](https://1drv.ms/f/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn).
 
 To test the pretrained checkpoints, you are recommended to read [Testing_Guidelines.md](https://github.com/fjchange/MIST_VAD/blob/master/Testing_Guidelines.md) for more details.
 
