@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.extend(['..','../..','../../..'])
+sys.path.append('..)
 import torch
 from configs import constant,options
 import models
@@ -14,8 +14,16 @@ import random
 import numpy as np
 from tqdm import tqdm
 import cv2
+from apex import amp
 
 _C=constant._C
+
+def load_model(model,state_dict):
+    new_dict={}
+    for key,value in state_dict.items():
+        new_dict[key[7:]]=value
+    model.load_state_dict(new_dict)
+
 
 def load_model_dataset(args):
     def worker_init(worked_id):
@@ -23,31 +31,37 @@ def load_model_dataset(args):
         random.seed(_C.SEED+worked_id)
     model=getattr(models,args.MODEL.split('_')[1]+'_SGA_STD')(dropout_rate=args.dropout_rate,expand_k=args.expand_k,
                                   freeze_backbone=False,freeze_blocks=None).cuda().eval()
+    opt_level = 'O1'
+    amp.init(allow_banned=True)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay, betas=(0.9, 0.999),
+                                 )
+    model,optimizer=amp.initialize(model,optimizer,opt_level=opt_level,keep_batchnorm_fp32=None)
+
     if args.MODEL.split('_')[-1]=='C3D':
         if args.MODEL=='UCF_C3D':
             dataset=Test_Dataset_C3D(_C.TEST_H5_PATH,_C.TESTING_TXT_PATH,args.segment_len,args.ten_crop)
-            model.load_state_dict(torch.load(_C.UCF_C3D_MODEL_PATH)['state_dict'])
+            load_model(model,torch.load(_C.UCF_C3D_MODEL_PATH)['model'])
         else:
             dataset=Test_Dataset_SHT_C3D(_C.SHT_TEST_H5_PATH,_C.SHT_TEST_TXT_PATH,_C.SHT_TEST_MASK_DIR,
                                          args.segment_len,args.ten_crop)
-            model.load_state_dict(torch.load(_C.SHT_C3D_MODEL_PATH)['state_dict'])
+            load_model(model,torch.load(_C.SHT_C3D_MODEL_PATH)['model'])
         dataloader=DataLoader(dataset,batch_size=args.batch_size,shuffle=False,num_workers=10,
                               worker_init_fn=worker_init,drop_last=False)
     else:
         if args.MODEL=='UCF_I3D':
             dataset=Test_Dataset_I3D(_C.TEST_H5_PATH,_C.TESTING_TXT_PATH,args.segment_len,args.ten_crop)
-            model.load_state_dict(torch.load(_C.UCF_I3D_MODEL_PATH)['state_dict'])
+            load_model(model,torch.load(_C.UCF_I3D_MODEL_PATH)['model'])
         else:
             dataset=Test_Dataset_SHT_I3D(_C.SHT_TEST_H5_PATH,_C.SHT_TEST_TXT_PATH,_C.SHT_TEST_MASK_DIR,
                                          args.segment_len,args.ten_crop)
-            model.load_state_dict(torch.load(_C.SHT_I3D_MODEL_PATH)['state_dict'])
+            load_model(model,torch.load(_C.SHT_I3D_MODEL_PATH)['model'])
         dataloader=DataLoader(dataset,batch_size=args.batch_size,shuffle=False,num_workers=5,
                               worker_init_fn=worker_init,drop_last=False)
     return model,dataloader
 
 def eval_UCF(args,model,test_dataloader):
     total_labels, total_scores= [], []
-
+    n_scores=[]
     data_iter=test_dataloader.__iter__()
     next_batch=data_iter.__next__()
     next_batch[0]=next_batch[0].cuda(non_blocking=True)
@@ -76,6 +90,8 @@ def eval_UCF(args,model,test_dataloader):
             score = [score] * args.segment_len
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
+            if ano_type=='Normal':
+                n_scores.extend(anno.tolist())
 
             if args.vis and ano_type != 'Normal':
                 spa_annos = test_spatial_annotation[key]
@@ -87,29 +103,29 @@ def eval_UCF(args,model,test_dataloader):
                         cam_clip = visualize_CAM_with_clip(cam_map, clip, (320, 240))
                         cv2.imwrite(cam_path, cam_clip)
 
-        return eval(total_scores, total_labels )
-
-    return eval(total_scores,total_labels)
+    return eval(total_scores, total_labels )
 
 def eval_SHT(model,test_dataloader):
-    total_labels, total_scores = [], []
-    for frames,_,_,_,annos in test_dataloader:
+    total_labels, total_scores,n_scores = [], [],[]
+    for frames,ano_type,_,annos in test_dataloader:
         frames=frames.float().contiguous().view([-1, 3, frames.shape[-3], frames.shape[-2], frames.shape[-1]]).cuda()
         with torch.no_grad():
             scores, feat_maps = model(frames)[:2]
         if args.ten_crop:
             scores = scores.view([-1, 10, 2]).mean(dim=-2)
+
         for clip, score, anno in zip(frames, scores, annos):
             score = [score.squeeze()[1].detach().cpu().item()] * args.segment_len
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
+            n_scores.extend(scores.tolist())
 
-    return eval(total_scores,total_labels)
+    return eval(total_scores,total_labels,n_scores)
 
-def eval(total_scores,total_labels):
+def eval(total_scores,total_labels,n_scores):
     total_scores,total_labels=np.array(total_scores),np.array(total_labels)
     auc = cal_auc(total_scores, total_labels)
-    far=cal_false_alarm(total_scores,total_labels)
+    far=cal_false_alarm(n_scores,[0]*len(n_scores))
     gap=cal_score_gap(total_scores,total_labels)
     print('{}: AUC {:.2f}%, FAR {:.2f}%, GAP {:.2f}%'.format(args.MODEL,auc*100,far*100,gap*100))
 
