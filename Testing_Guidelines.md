@@ -34,7 +34,7 @@ All the default paths are set in `configs/constant.py`. You should the file as t
 ## 3. Testing
 You can test the model via the command as below:
 ```shell script
-python testing/test.py --gpus 0,1,2,3 --MODEL SHT_C3D
+python test.py --gpus 0,1,2,3 --MODEL SHT_C3D
 ```
 
 The argument `--MODEL` is to choose the model structure and pretrained weights, 
@@ -42,5 +42,5 @@ which should be one of the candidate lists `[SHT_C3D, SHT_I3D, UCF_C3D, UCF_I3D]
 
 Specifically, if you wanna to make some visualization, you should choose `UCF_C3D` and use command below:
 ```shell script
-python testing/test.py --gpus 0,1,2,3 --MODEL UCF_C3D --vis_UCF
+python test.py --gpus 0,1,2,3 --MODEL UCF_C3D --vis_UCF
 ```
