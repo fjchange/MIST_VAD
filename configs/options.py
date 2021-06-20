@@ -6,11 +6,12 @@ def parse_args():
     parser.add_argument('--MODEL',type=str,default='SHT_I3D',
                         help='the input should be in [UCF_C3D,UCF_I3D,SHT_C3D,SHT_I3D]')
     parser.add_argument('--expand_k',type=int,default=8)
-
+    parser.add_argument('--gpus',type=str,default='0,1,2,3')
     parser.add_argument('--batch_size',type=int,default=10)
     parser.add_argument('--dropout_rate',type=float,default=0.8)
     parser.add_argument('--segment_len',type=int,default=16)
-
+    parser.add_argument('--lr',type=float,default=1e-4)
+    parser.add_argument('--weight_decay',type=float,default=5e-4)
     # for test time augmetation
     parser.add_argument('--test_ten_crop',dest='ten_crop',action='store_true')
     parser.set_defaults(ten_crop=False)
