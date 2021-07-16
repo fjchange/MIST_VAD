@@ -30,6 +30,9 @@ There maybe any unexpected bugs. I will improve it later if I have time.
 
 Pretrained models have been uploaded on [OneDrive](https://1drv.ms/f/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn).
 
+The h5py file for ShanghaiTech and its corresponing annotations are uploaded on `[BaiduYun]` with multiple sub-files, you can open/unzip it with `WinRAR`
+BaiduYun link：https://pan.baidu.com/s/1sQUGXj-BnLDGczWuGkBWdA, code：kym5
+
 To test the pretrained checkpoints, you are recommended to read [Testing_Guidelines.md](https://github.com/fjchange/MIST_VAD/blob/master/Testing_Guidelines.md) for more details.
 
 ## Training
