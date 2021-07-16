@@ -33,6 +33,7 @@ def Video2ImgH5(video_dir,h5_path,train_list,segment_len=16,max_vid_len=2000):
                 else:
                     print('Bug Reported!')
                     exit(-1)
+            tmp_frames = np.asarray(tmp_frames)
             h.create_dataset(key,data=tmp_frames,chunks=True)
         print(path)
 
