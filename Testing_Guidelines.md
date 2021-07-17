@@ -28,6 +28,10 @@ If you do not want to make h5 file, you can modify the `datasets/dataset.py` to 
 ### 1.3 Downlaod pretrained weights
 MIST finetuned checkpoints are uploaded on [OneDrive](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=lhkr0i)
 
+The h5py file for ShanghaiTech and its corresponing annotations are uploaded on `[BaiduYun]` with multiple sub-files, you can open/unzip it with `WinRAR`
+
+[BaiduYun link](https://pan.baidu.com/s/1sQUGXj-BnLDGczWuGkBWdA), code：`kym5`
+
 ## 2. Path Modification
 All the default paths are set in `configs/constant.py`. You should the file as the paths set in the file, or modify it.
 
