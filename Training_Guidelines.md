@@ -26,6 +26,10 @@ You should download all of them and place them in the proper place as `configs/c
 
 Specifically, the `test_frame_mask` of ShanghaiTech is downloaded from [Download](https://svip-lab.github.io/dataset/campus_dataset.html).
 
+As the original ShanghaiTech dataset link is not worked now. I uploaded the h5py file for ShanghaiTech and its corresponing annotations are uploaded on `[BaiduYun]` with multiple sub-files, you can open/unzip it with `WinRAR`
+
+[BaiduYun link](https://pan.baidu.com/s/1sQUGXj-BnLDGczWuGkBWdA), code：`kym5`
+
 ## 4. Stage 1 training
 The stage 1 is to generate pseudo labels.
 First we train the MIL-based generator.
