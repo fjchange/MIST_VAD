@@ -59,9 +59,6 @@ def train(args):
 
             loss,err,l1,_,l3=topk_rank_loss(args,outputs_mean)
 
-            kl=F.binary_cross_entropy(outputs_mean,labs,reduction='mean')
-            loss=args.lambda_kl*kl+loss
-
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 10)
