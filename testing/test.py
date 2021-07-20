@@ -107,7 +107,7 @@ def eval_UCF(args,model,test_dataloader):
 
 def eval_SHT(model,test_dataloader):
     total_labels, total_scores,normal_scores = [], [],[]
-    for frames,_,_,annos in test_dataloader:
+    for frames,anno_type,_,annos in test_dataloader:
         frames=frames.float().contiguous().view([-1, 3, frames.shape[-3], frames.shape[-2], frames.shape[-1]]).cuda()
         with torch.no_grad():
             scores, feat_maps = model(frames)[:2]
@@ -117,8 +117,9 @@ def eval_SHT(model,test_dataloader):
             score = [score.squeeze()[1].detach().cpu().item()] * args.segment_len
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
-
-    return eval(total_scores,total_labels)
+            if ano_type=='Normal':
+                normal_scores.extend(score)
+    return eval(total_scores,total_labels,normal_scores)
 
 def eval(total_scores,total_labels,normal_scores):
     total_scores,total_labels=np.array(total_scores),np.array(total_labels)
