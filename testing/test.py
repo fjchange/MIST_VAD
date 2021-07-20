@@ -103,7 +103,7 @@ def eval_UCF(args,model,test_dataloader):
                         cv2.imwrite(cam_path, cam_clip)
 
 
-    return eval(total_scores,total_labels,normal_score)
+    return eval(total_scores,total_labels,normal_scores)
 
 def eval_SHT(model,test_dataloader):
     total_labels, total_scores,normal_scores = [], [],[]
