@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append('..)
+sys.path.append('..')
 import torch
 from configs import constant,options
 import models
@@ -60,8 +60,8 @@ def load_model_dataset(args):
     return model,dataloader
 
 def eval_UCF(args,model,test_dataloader):
-    total_labels, total_scores= [], []
-    n_scores=[]
+    total_labels, total_scores,normal_scores= [], [],[]
+
     data_iter=test_dataloader.__iter__()
     next_batch=data_iter.__next__()
     next_batch[0]=next_batch[0].cuda(non_blocking=True)
@@ -91,8 +91,7 @@ def eval_UCF(args,model,test_dataloader):
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
             if ano_type=='Normal':
-                n_scores.extend(anno.tolist())
-
+                normal_scores.extend(score)
             if args.vis and ano_type != 'Normal':
                 spa_annos = test_spatial_annotation[key]
 
@@ -103,29 +102,28 @@ def eval_UCF(args,model,test_dataloader):
                         cam_clip = visualize_CAM_with_clip(cam_map, clip, (320, 240))
                         cv2.imwrite(cam_path, cam_clip)
 
-    return eval(total_scores, total_labels )
+
+    return eval(total_scores,total_labels,normal_score)
 
 def eval_SHT(model,test_dataloader):
-    total_labels, total_scores,n_scores = [], [],[]
-    for frames,ano_type,_,annos in test_dataloader:
+    total_labels, total_scores,normal_scores = [], [],[]
+    for frames,_,_,annos in test_dataloader:
         frames=frames.float().contiguous().view([-1, 3, frames.shape[-3], frames.shape[-2], frames.shape[-1]]).cuda()
         with torch.no_grad():
             scores, feat_maps = model(frames)[:2]
         if args.ten_crop:
             scores = scores.view([-1, 10, 2]).mean(dim=-2)
-
         for clip, score, anno in zip(frames, scores, annos):
             score = [score.squeeze()[1].detach().cpu().item()] * args.segment_len
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
-            n_scores.extend(scores.tolist())
 
-    return eval(total_scores,total_labels,n_scores)
+    return eval(total_scores,total_labels)
 
-def eval(total_scores,total_labels,n_scores):
+def eval(total_scores,total_labels,normal_scores):
     total_scores,total_labels=np.array(total_scores),np.array(total_labels)
     auc = cal_auc(total_scores, total_labels)
-    far=cal_false_alarm(n_scores,[0]*len(n_scores))
+    far=cal_false_alarm(normal_scores,[0]*len(normal_scores))
     gap=cal_score_gap(total_scores,total_labels)
     print('{}: AUC {:.2f}%, FAR {:.2f}%, GAP {:.2f}%'.format(args.MODEL,auc*100,far*100,gap*100))
 
@@ -140,3 +138,6 @@ def test(args):
 if __name__=='__main__':
     args=options.parse_args()
     test(args)
+
+
+
