@@ -3,8 +3,7 @@ import os
 def parse_args():
     parser=argparse.ArgumentParser()
     parser.add_argument('--MODEL', type=str, default='C3D')
-    parser.add_argument('--train', type=str, default='TD')
-    parser.add_argument('--iter', type=int, default=1)
+    parser.add_argument('--train', type=str, default='SGA')
     parser.add_argument('--expand_k',type=int,default=8)
     parser.add_argument('--label_smoothing',type=float,default=0)
     parser.add_argument('--hard_label',dest='use_hard_label',action='store_true')
@@ -16,16 +15,10 @@ def parse_args():
 
     parser.add_argument('--lr',type=float,default=1e-4)
     parser.add_argument('--weight_decay',type=float,default=5e-4)
-    parser.add_argument('--min_lr',type=float,default=1e-6)
-    parser.add_argument('--max_step',type=int,default=20)
     parser.add_argument('--optim',type=str,default='adam')
     parser.add_argument('--dropout_rate',type=float,default=0.8)
     parser.add_argument('--grad_clip',type=float,default=10)
-
     parser.add_argument('--warmup_epochs',type=int,default=5)
-    parser.add_argument('--decay_rate',type=float,default=0.1)
-    parser.add_argument('--decay_type',type=str,default='None')
-    parser.add_argument('--milestones',type=list,default=[20,40])
 
     parser.add_argument('--freeze_backbone',dest='train_backbone',action='store_false')
     parser.set_defaults(train_backbone=True)
@@ -39,14 +32,7 @@ def parse_args():
     parser.add_argument('--gpus',type=str,default='0,1,2,3')
     parser.add_argument('--gpu0sz',type=float,default=0.9)
 
-    # for Focal Loss of Normal
-    parser.add_argument('--alpha',type=float,default=0.0)
-    parser.add_argument('--beta',type=float,default=0.0)
-    parser.add_argument('--gamma',type=float,default=0.5)
     parser.add_argument('--loss_type',type=str,default='CE')
-    # parser.add_argument('--focal',dest='use_focal',action='store_true')
-    # parser.set_defaults(use_focal=False)
-    # parser.add_argument('--alpha',type=float,default=0.75)
 
     # for test time augmetation
     parser.add_argument('--test_ten_crop',dest='ten_crop',action='store_true')
