@@ -43,10 +43,6 @@ def parse_args():
     parser.add_argument('--lambda_att',type=float,default=1.0)
 
     parser.add_argument('--class_reweights',type=str,default='1,1')
-    # grad clip
-
-    # threshold for iou calculate
-    parser.add_argument('--threshold',type=float,default=0.5)
     parser.add_argument('--gradcam_pp',dest='grad_pp',action='store_true')
     parser.set_defaults(grad_pp=False)
     # path setting
