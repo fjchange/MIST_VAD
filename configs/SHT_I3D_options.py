@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument('--freeze_backbone',dest='train_backbone',action='store_false')
     parser.set_defaults(train_backbone=True)
     parser.add_argument('--freeze_blocks',type=str,default='conv3d_1a_7x7,conv3d_2b_1x1,conv3d_2c_3x3,mixed_3b,mixed_3c,mixed_4b,mixed_4c,mixed_4d,mixed_4e,mixed_4f,mixed_5b,mixed_5c')
-    parser.add_argument('--pretrained_path',type=str,default='/jiachang/Weakly_Supervised_VAD/stored_models/SHT_I3D_TD_epoch_420_AUC_0.90285.pth')
+    parser.add_argument('--pretrained_path',type=str)
 
     parser.add_argument('--train_all',dest='pretrained_backbone',action='store_false')
     parser.set_defaults(pretrained_backbone=True)
