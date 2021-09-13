@@ -37,7 +37,7 @@ The h5py file for ShanghaiTech and its corresponing annotations are uploaded on 
 To test the pretrained checkpoints, you are recommended to read [Testing_Guidelines.md](https://github.com/fjchange/MIST_VAD/blob/master/Testing_Guidelines.md) for more details.
 
 ## Training
-We have released the training codes for ShanghaiTech on both stage 1 and stage 2. For convenience to repeat our experiments, we presents the pseudo labels files in `data/` dir. 
+We have released the training codes for ShanghaiTech and UCF-Crimes. For convenience to repeat our experiments, we presents the pseudo labels files in `data/` dir. 
 The details of training are listed in [Training_Guidelines.md](https://github.com/fjchange/MIST_VAD/blob/master/Training_Guidelines.md).
 
 ## Reference
