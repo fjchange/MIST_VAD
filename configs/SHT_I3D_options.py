@@ -2,6 +2,8 @@ import argparse
 import os
 def parse_args():
     parser=argparse.ArgumentParser()
+    parser.add_argument('--MODEL', type=str, default='I3D')
+    parser.add_argument('--train', type=str, default='SGA')
     parser.add_argument('--expand_k',type=int,default=8)
     parser.add_argument('--label_smoothing',type=float,default=0)
     parser.add_argument('--hard_label',dest='use_hard_label',action='store_true')
@@ -22,8 +24,7 @@ def parse_args():
     parser.add_argument('--dropout_rate',type=float,default=0.8)
     parser.add_argument('--grad_clip',type=float,default=20)
     parser.add_argument('--warmup_epochs',type=int,default=5)
-    parser.add_argument('--decay_rate',type=float,default=0.1)
-    parser.add_argument('--milestones',type=list,default=[20,40])
+
     parser.add_argument('--use_bn_sta',dest='freeze_bn_sta',action='store_false')
     parser.set_defaults(freeze_bn_sta=True)
     parser.add_argument('--freeze_bn',dest='train_bn',action='store_false')
@@ -56,11 +57,8 @@ def parse_args():
     # threshold for iou calculate
     parser.add_argument('--gradcam_pp',dest='grad_pp',action='store_true')
     parser.set_defaults(grad_pp=False)
-    # path setting
-    parser.add_argument('--machine',type=str,default='data0',help='data0 in keylab , other may different for as the environment change')
 
     args=parser.parse_args()
-    args.machine='/'+args.machine
     os.environ['CUDA_VISIBLE_DEVICES']=args.gpus
     args.gpus=[i for i in range(len(args.gpus.split(',')))]
     args.freeze_blocks=[i for i in args.freeze_blocks.split(',')]
