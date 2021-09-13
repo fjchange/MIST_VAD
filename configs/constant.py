@@ -27,6 +27,9 @@ _C.TRAIN_H5_PATH='data/UCFCrime-Frames.h5'
 _C.TEST_H5_PATH='data/UCFCrime-Frames-test.h5'
 _C.TESTING_TXT_PATH='data/Temporal_Anomaly_Annotation_New.txt'
 
+_C.PSEUDO_LABEL_PATH_I3D='data/UCF_I3D_PLs.npy'
+_C.PSEUDO_LABEL_PATH_C3D='data/UCF_C3D_PLs.npy'
+
 ############# 3. SHT Data ##########################
 _C.SHT_TRAIN_H5_PATH='data/SHT_Frames.h5'
 _C.SHT_TEST_H5_PATH='data/SHT_Frames.h5'
