@@ -17,7 +17,7 @@ _C.C3D_MODEL_PATH='/data2/jiachang/C3D_Sport1M/pth'
 _C.UCF_C3D_MODEL_PATH='../ckpts/UCF_C3D_AUC_0.8143.pth'
 _C.UCF_I3D_MODEL_PATH='../ckpts/UCF_I3D_AUC_0.8230.pth'
 _C.SHT_C3D_MODEL_PATH='../ckpts/SHT_C3D_AUC_0.9313.pth'
-_C.STH_I3D_MODEL_PATH='../ckpts/SHT_I3D_AUC_0.9483.pth'
+_C.SHT_I3D_MODEL_PATH='../ckpts/SHT_I3D_AUC_0.9483.pth'
 
 ## Vis Paths
 _C.TEST_SPATIAL_ANNOTATION_PATH='../data/Test_Spatial_Annotation.npy'
