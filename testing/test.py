@@ -121,7 +121,7 @@ def eval_SHT(model,test_dataloader):
 def eval(total_scores,total_labels,normal_scores):
     total_scores,total_labels=np.array(total_scores),np.array(total_labels)
     auc = cal_auc(total_scores, total_labels)
-    far=cal_false_alarm(normal_scores,[0]*len(normal_scores))
+    far=cal_false_alarm(normal_scores,np.zeros(len(normal_scores),dtype=int))
     gap=cal_score_gap(total_scores,total_labels)
     print('{}: AUC {:.2f}%, FAR {:.2f}%, GAP {:.2f}%'.format(args.MODEL,auc*100,far*100,gap*100))
 
