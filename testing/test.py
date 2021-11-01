@@ -117,7 +117,7 @@ def eval_SHT(model,test_dataloader):
             score = [score.squeeze()[1].detach().cpu().item()] * args.segment_len
             total_scores.extend(score)
             total_labels.extend(anno.tolist())
-            if ano_type=='Normal':
+            if anno_type=='Normal':
                 normal_scores.extend(score)
     return eval(total_scores,total_labels,normal_scores)
 
