@@ -62,9 +62,6 @@ def load_model_dataset(args):
 def eval_UCF(args,model,test_dataloader):
     total_labels, total_scores,normal_scores= [], [],[]
 
-    data_iter=test_dataloader.__iter__()
-    next_batch=data_iter.__next__()
-    next_batch[0]=next_batch[0].cuda(non_blocking=True)
     if args.vis:
         gradcam=GradCAM(model.Regressor,grad_pp=False)
         test_spatial_annotation = np.load(_C.TEST_SPATIAL_ANNOTATION_PATH, allow_pickle=True).tolist()
