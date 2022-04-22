@@ -54,6 +54,4 @@ bash SHT_C3D_train.sh
 bash SHT_I3D_train.sh
 % for UCF_C3D
 bash UCF_C3D_train.sh
-% for UCF_I3D
-bash UCF_I3D_train.sh
 ``` 
