@@ -28,7 +28,7 @@ There maybe any unexpected bugs. I will improve it later if I have time.
 
 ## Testing
 
-Pretrained models have been uploaded on [OneDrive](https://1drv.ms/f/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn).
+Pretrained models have been uploaded on [OneDrive](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=eieS3F).
 
 The h5py file for ShanghaiTech and its corresponing annotations are uploaded on `[BaiduYun]` with multiple sub-files, you can open/unzip it with `WinRAR`
 
