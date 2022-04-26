@@ -24,7 +24,8 @@ Pre-extracted features for ShanghaiTech are uploaded on [SHT_Feats_for_MIL](http
 Moreover the Kinetics pretrained I3D model and Sport-100M pretrained C3D model are uploaded on [pretrained_models](https://1drv.ms/u/s!Ai48CHyipiNUkFTHTQGze7QLY1Fn?e=lhkr0i).
 You should download all of them and place them in the proper place as `configs/constant.py` indicates.
 
-Specifically, the `test_frame_mask` of ShanghaiTech is downloaded from [Download](https://svip-lab.github.io/dataset/campus_dataset.html).
+~~Specifically, the `test_frame_mask` of ShanghaiTech is downloaded from [Download](https://svip-lab.github.io/dataset/campus_dataset.html).~~
+`test_frame_mask` is uploaded in `data/test_frame_mask/` now.
 
 **[Update!]** As the original ShanghaiTech dataset link is not worked now. I uploaded the h5py file for ShanghaiTech and its corresponing annotations are uploaded on `[BaiduYun]` with multiple sub-files, you can open/unzip it with `WinRAR`
 
