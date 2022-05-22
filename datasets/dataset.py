@@ -727,7 +727,7 @@ class Train_TemAug_Dataset_SHT_C3D(Dataset):
         else:
             return clips,np.array(labels),self.get_rgb_diff(clips)
 
-class Train_TemAug_Dataset_C3D(Dataset):
+class Train_TemAug_Dataset_C3D_UCF(Dataset):
     def __init__(self, h5_file, pseudo_labels,clip_num=8,segment_len=16,
                  type='Normal',rgb_diff=False,hard_label=False,score_segment_len=16,continuous_sampling=False):
         self.h5_path = h5_file
